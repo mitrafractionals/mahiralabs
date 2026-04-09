@@ -999,24 +999,24 @@ footer {
         <div class="contact-form-wrap">
           <div class="form-title">Send us a message</div>
           <div class="form-sub">We'll get back to you within 24 hours.</div>
-          <form onsubmit="handleSubmit(event)">
+          <form action="https://formspree.io/f/xzdkqnjr" method="POST">
             <div class="form-row">
               <div class="form-group">
                 <label>Your Name</label>
-                <input type="text" placeholder="John Silva" required>
+                <input type="text" name="name" placeholder="John Silva" required>
               </div>
               <div class="form-group">
                 <label>Phone Number</label>
-                <input type="tel" placeholder="+94 7X XXX XXXX">
+                <input type="tel" name="phone" placeholder="+94 7X XXX XXXX">
               </div>
             </div>
             <div class="form-group">
               <label>Email Address</label>
-              <input type="email" placeholder="you@yourcompany.com" required>
+              <input type="email" name="email" placeholder="you@yourcompany.com" required>
             </div>
             <div class="form-group">
               <label>Interested Package</label>
-              <select>
+              <select name="package">
                 <option value="">Select a package...</option>
                 <option>Starter — 1 Platform</option>
                 <option>Starter — 2 Platforms</option>
@@ -1032,8 +1032,10 @@ footer {
             </div>
             <div class="form-group">
               <label>Tell us about your brand</label>
-              <textarea placeholder="What's your business, your goals, your challenges..."></textarea>
+              <textarea name="message" placeholder="What's your business, your goals, your challenges..."></textarea>
             </div>
+            <input type="hidden" name="_replyto" value="contact@mahiralabs.com">
+            <input type="hidden" name="_subject" value="New enquiry — Mahira Labs website">
             <button type="submit" class="form-submit">Send Message →</button>
           </form>
         </div>
