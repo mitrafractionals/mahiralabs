@@ -116,6 +116,8 @@ nav ul{display:none}.strokes{opacity:.2;width:80vw;right:-20%}.hero h1{max-width
 @media (max-width:860px){.heroimg{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.w>span{transform:none}.hero p,.cta,.strip,.heroimg{opacity:1}.steps div::before{transform:scaleX(1)}}
 
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#111}
+.frame:has(iframe)::after{display:none}
 </style>
 </head>
 <body>
@@ -206,7 +208,7 @@ nav ul{display:none}.strokes{opacity:.2;width:80vw;right:-20%}.hero h1{max-width
 <script>
 /* ===== EDIT HERE ===== */
 const CFG={phone:"+94768337083",phoneShow:"076 833 7083",email:"contact@mahiralabs.com",ig:"mahira_labs",
-formspree:"https://formspree.io/f/https://formspree.io/f/xzdkqnjr"};
+formspree:"https://formspree.io/f/xzdkqnjr"};
 /* Add your 6 reels: src = video file or URL, poster = optional image */
 const WORK=[
 {t:"Short Commercial Break 01",c:"A Teaser",src:"https://drive.google.com/file/d/1QGf_gnSKcRZvgysDpO8e7VqLDFpxy3HD/view?usp=sharing",poster:""},
@@ -220,6 +222,8 @@ const HERO_IMG="";
 /* Add your group photos: src = image file or URL */
 const TEAM=[{src:"https://drive.google.com/file/d/1O7Hvk-ALP3IWFIrQHIVrOfrQi1Azlac2/view?usp=sharing",cap:"Brainstorming session"},{src:"https://drive.google.com/file/d/14Yt1biLVrAGFSATzoVrQdxqcHTzFCrzk/view?usp=sharing",cap:"Planning day"},{src:"https://drive.google.com/file/d/1BsdDofcADhjYH-eo03cZUJUNL3lyuQAS/view?usp=sharing",cap:"Mahira Labs Team"},{src:"https://drive.google.com/file/d/17G3zPqPBkD7_sGzfVl1qX8IXzlpn309r/view?usp=sharing",cap:"Team behind work"},{src:"https://drive.google.com/file/d/1w7JRGdUGueoRY2CB5vzYYeKwnp2kWDjZ/view?usp=sharing",cap:"Behind the scenes"}];
 /* ===================== */
+const gid=u=>{const m=(u||"").match(/drive\.google\.com\/file\/d\/([\w-]+)/);return m?m[1]:null};
+const img=u=>gid(u)?"https://drive.google.com/thumbnail?id="+gid(u)+"&sz=w1600":u;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const wa="https://wa.me/"+CFG.phone.replace(/\D/g,"")+"?text="+encodeURIComponent("Hi Mahira Labs, I'd like to talk about my brand.");
 $$("[data-wa]").forEach(a=>{a.href=wa;a.target="_blank";a.rel="noopener"});
@@ -230,8 +234,8 @@ $$("[data-phonetext]").forEach(e=>e.textContent=CFG.phoneShow);
 $$("[data-mailtext]").forEach(e=>e.textContent=CFG.email);
 $$("[data-igtext]").forEach(e=>e.textContent="@"+CFG.ig);
 $("#enq").action=CFG.formspree;
-$("#reels").innerHTML=WORK.map(w=>`<figure class="reel"><div class="frame">${w.src?`<video controls playsinline preload="metadata" ${w.poster?`poster="${w.poster}"`:""} src="${w.src}"></video>`:`<div class="ph"><b>&#9654;</b>Reel coming soon</div>`}</div><figcaption>${w.t}<span>${w.c}</span></figcaption></figure>`).join("");
-$("#track").innerHTML=TEAM.map(t=>`<div class="slide">${t.src?`<img loading="lazy" src="${t.src}" alt="${t.cap}">`:""}<span>${t.cap}</span></div>`).join("");
+$("#reels").innerHTML=WORK.map(w=>`<figure class="reel"><div class="frame">${w.src?(gid(w.src)?`<iframe src="https://drive.google.com/file/d/${gid(w.src)}/preview" allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="${w.t}"></iframe>`:`<video controls playsinline preload="metadata" ${w.poster?`poster="${w.poster}"`:""} src="${w.src}"></video>`):`<div class="ph"><b>&#9654;</b>Reel coming soon</div>`}</div><figcaption>${w.t}<span>${w.c}</span></figcaption></figure>`).join("");
+$("#track").innerHTML=TEAM.map(t=>`<div class="slide">${t.src?`<img loading="lazy" src="${img(t.src)}" alt="${t.cap}" onerror="this.remove()">`:""}<span>${t.cap}</span></div>`).join("");
 const tr=$("#track"),step=()=>tr.querySelector(".slide").offsetWidth+18;
 const go=d=>{const end=tr.scrollLeft+tr.clientWidth>=tr.scrollWidth-4;tr.scrollTo({left:d>0&&end?0:tr.scrollLeft+d*step(),behavior:"smooth"})};
 $("#next").onclick=()=>go(1);$("#prev").onclick=()=>go(-1);
